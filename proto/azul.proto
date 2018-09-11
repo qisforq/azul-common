@@ -6,10 +6,14 @@ option java_outer_classname = "AzulProto";
 
 package azul;
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
+// Discuss: Should we put everything into one service for now?
+//          Should we break things into separate services?
+// e.g. "Invitations" vs "Azul"
+
+service Azul {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc GenerateInvite (GenerateInviteRequest) returns (GenerateInviteReply) {}
+  rpc RedeemInvite (RedeemInviteRequest) returns (RedeemInviteReply) {}
 }
 
 // The request message containing the user's name.
@@ -20,4 +24,27 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+}
+
+message GenerateInviteRequest {
+  //string placeholder = 1;
+}
+
+message GenerateInviteReply {
+  string inviteCode = 1;
+  string url = 2;
+}
+
+message RedeemInviteRequest {
+  string inviteCode = 1;
+}
+message RedeemInviteReply {
+ enum RedeemInviteResult {
+    SUCCESS = 0;
+    USER_PRE_EXISTING = 1;
+    ALREADY_REDEEMED = 2;
+    INVITE_NOT_FOUND = 3;
+  }
+
+  RedeemInviteResult result = 1;
 }
