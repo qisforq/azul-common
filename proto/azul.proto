@@ -15,6 +15,7 @@ service Azul {
   rpc GenerateInvite (GenerateInviteRequest) returns (GenerateInviteReply) {}
   rpc RedeemInvite (RedeemInviteRequest) returns (RedeemInviteReply) {}
   rpc RegisterForPush (RegisterForPushRequest) returns (RegisterForPushReply) {}
+
 }
 
 // The request message containing the user's name.
@@ -38,7 +39,10 @@ message GenerateInviteReply {
 
 message RedeemInviteRequest {
   string inviteCode = 1;
+  double latitude = 2;
+  double longitude = 3;
 }
+
 message RedeemInviteReply {
  enum RedeemInviteResult {
     SUCCESS = 0;
