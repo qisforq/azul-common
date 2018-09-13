@@ -12,9 +12,16 @@ package azul;
 
 service Azul {
   rpc Login (LoginRequest) returns (LoginReply) {}
+  rpc Register (RegisterRequest) returns (RegisterReply) {}
+
+  rpc CheckBalance (CheckBalanceRequest) returns (CheckBalanceReply) {}
+  rpc SendMoney (SendMoneyRequest) returns (SendMoneyReply) {}
+  rpc TransactionHistory (TransactionHistoryRequest) returns (TransactionHistoryReply) {}
+
   rpc GenerateInvite (GenerateInviteRequest) returns (GenerateInviteReply) {}
   rpc RedeemInvite (RedeemInviteRequest) returns (RedeemInviteReply) {}
   rpc InviteStatus (InviteStatusRequest) returns (InviteStatusReply) {}
+
   rpc RegisterForPush (RegisterForPushRequest) returns (RegisterForPushReply) {}
 }
 
@@ -25,7 +32,14 @@ message Location {
   double longitude = 2;
 }
 
-// Message Types
+message Transaction {
+  string sender = 1;
+  string recipient = 2;
+  double amount = 3;
+  string timestamp = 4;
+}
+
+// User Account
 
 message LoginRequest {
   string username = 1;
@@ -40,6 +54,57 @@ message LoginReply {
   LoginReplyStatus status = 1;
   string sessionToken = 2;
 }
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message RegisterReply {
+  enum RegisterReplyStatus {
+    SUCCESS = 0;
+    NAME_IN_USE = 1;
+    NAME_NOT_ALLOWED = 2;
+  }
+  RegisterReplyStatus status = 1;
+  string sessionToken = 2;
+}
+
+// Wallet
+
+message CheckBalanceRequest {
+  string sessionToken = 1;
+}
+
+message CheckBalanceReply {
+  int64 satoshis = 1;
+  string lastChangedAt = 2;
+}
+
+message SendMoneyRequest {
+  string sessionToken = 1;
+  string destination = 2;
+  int64 satoshis = 3;
+}
+
+message SendMoneyReply {
+  enum SendMoneyReplyStatus {
+    FAILURE = 0;
+    SUCCESS = 1;
+  }
+  SendMoneyReplyStatus status = 1;
+  string errorMessage = 2;
+}
+
+message TransactionHistoryRequest {
+  string sessionToken = 1;
+}
+
+message TransactionHistoryReply {
+  repeated Transaction transactions = 1;
+}
+
+// Invitation
 
 message GenerateInviteRequest {
   string sessionToken = 1;
@@ -76,12 +141,13 @@ message InviteStatusReply {
   int32 invitesUsed = 1;
 }
 
+// Device
+
 message RegisterForPushRequest {
   string sessionToken = 1;
   string firebaseMessagingToken = 2;
 }
 
-// The response message containing the greetings
 message RegisterForPushReply {
  enum RegisterForPushResult {
     SUCCESS = 0;
