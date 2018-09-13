@@ -11,7 +11,7 @@ package azul;
 // e.g. "Invitations" vs "Azul"
 
 service Azul {
-  rpc Login (LoginRequest) returns (LoginReply) {}
+  rpc UserLogin (LoginRequest) returns (LoginReply) {}
   rpc Register (RegisterRequest) returns (RegisterReply) {}
 
   rpc CheckBalance (CheckBalanceRequest) returns (CheckBalanceReply) {}
@@ -53,6 +53,7 @@ message LoginReply {
   }
   LoginReplyStatus status = 1;
   string sessionToken = 2;
+  string message = 3;
 }
 
 message RegisterRequest {
