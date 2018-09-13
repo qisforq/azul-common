@@ -14,9 +14,18 @@ service Azul {
   rpc Login (LoginRequest) returns (LoginReply) {}
   rpc GenerateInvite (GenerateInviteRequest) returns (GenerateInviteReply) {}
   rpc RedeemInvite (RedeemInviteRequest) returns (RedeemInviteReply) {}
+  rpc InviteStatus (InviteStatusRequest) returns (InviteStatusReply) {}
   rpc RegisterForPush (RegisterForPushRequest) returns (RegisterForPushReply) {}
-
 }
+
+// General Types
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+// Message Types
 
 message LoginRequest {
   string username = 1;
@@ -33,18 +42,19 @@ message LoginReply {
 }
 
 message GenerateInviteRequest {
-  //string placeholder = 1;
+  string sessionToken = 1;
 }
 
 message GenerateInviteReply {
   string inviteCode = 1;
-  string url = 2;
+  string inviteUri = 2;
 }
 
 message RedeemInviteRequest {
-  string inviteCode = 1;
-  double latitude = 2;
-  double longitude = 3;
+  string username = 1;
+  string password = 2;
+  Location location = 3;
+  string inviteCode = 4;
 }
 
 message RedeemInviteReply {
@@ -58,8 +68,17 @@ message RedeemInviteReply {
   RedeemInviteResult result = 1;
 }
 
+message InviteStatusRequest {
+  string sessionToken = 1;
+}
+
+message InviteStatusReply {
+  int32 invitesUsed = 1;
+}
+
 message RegisterForPushRequest {
-  string token = 1;
+  string sessionToken = 1;
+  string firebaseMessagingToken = 2;
 }
 
 // The response message containing the greetings
