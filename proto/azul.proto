@@ -47,11 +47,11 @@ message LoginRequest {
 }
 
 message LoginReply {
-  enum LoginReplyStatus {
-    LOGIN_FAILURE = 0;
-    LOGIN_SUCCESS = 1;
+  enum Status {
+    SUCCESS = 0;
+    FAILURE = 1;
   }
-  LoginReplyStatus status = 1;
+  Status status = 1;
   string sessionToken = 2;
   string message = 3;
 }
@@ -62,13 +62,13 @@ message RegisterRequest {
 }
 
 message RegisterReply {
-  enum RegisterReplyStatus {
+  enum Status {
     SUCCESS = 0;
-    NAME_IN_USE = 1;
-    NAME_NOT_ALLOWED = 2;
+    FAILURE = 1;
   }
-  RegisterReplyStatus status = 1;
+  Status status = 1;
   string sessionToken = 2;
+  string message = 3;
 }
 
 // Wallet
@@ -157,4 +157,3 @@ message RegisterForPushReply {
 
   RegisterForPushResult result = 1;
 }
-
