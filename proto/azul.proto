@@ -79,7 +79,7 @@ message CheckBalanceRequest {
 
 message CheckBalanceReply {
   int64 satoshis = 1;
-  string lastChangedAt = 2;
+  string updatedAt = 2;
 }
 
 message SendMoneyRequest {
